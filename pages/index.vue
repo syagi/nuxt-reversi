@@ -1,86 +1,68 @@
 <template>
   <div class="container">
-    <div>
-      <logo />
-      <h1 class="title">
-        nuxt-ts
-      </h1>
-      <h2 class="subtitle">
-        {{ $vxm.users.fullname }}'s swell Nuxt.js project
-      </h2>
-      <div class="links">
-        <a href="https://nuxtjs.org/" target="_blank" class="button--green">
-          Documentation
-        </a>
-        <a
-          href="https://github.com/nuxt/nuxt.js"
-          target="_blank"
-          class="button--grey"
-        >
-          GitHub
-        </a>
+    <template v-for="x in board.length">
+      <div v-for="y in board[x - 1].length" :key="`${y}-${x}`" class="cell">
+        <div
+          v-if="isStone(x, y)"
+          :class="['stone', isBlack(x, y) ? 'black' : 'white']"
+        />
       </div>
-    </div>
+    </template>
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue, Prop } from 'nuxt-property-decorator'
-import Logo from '~/components/atoms/Logo.vue'
+import { Component, Vue } from 'nuxt-property-decorator'
 
-@Component({
-  components: { Logo }
-})
+@Component
 export default class extends Vue {
-  @Prop()
-  test!: {
-    hoge: string
+  get isStone() {
+    return (x: number, y: number) => this.board[x - 1][y - 1] !== 0
   }
 
-  async mounted() {
-    await this.$vxm.users.doAnotherAsyncStuff(4)
+  get isBlack() {
+    return (x: number, y: number) => this.board[x - 1][y - 1] === 1
   }
+
+  board = [
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 1, 2, 0, 0, 0],
+    [0, 0, 0, 2, 1, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0],
+    [0, 0, 0, 0, 0, 0, 0, 0]
+  ]
 }
 </script>
 
 <style scoped>
+/* autoprefixer grid: no-autoplace */
 .container {
-  margin: 0 auto;
-
-  /* Caution: `min-height: 100vh` does not work in IE 11 */
-  height: 100vh;
-  display: grid;
-
-  /* Caution: `1fr` has different results in IE 11 */
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  text-align: center;
+  width: 640px;
+  height: 640px;
+  margin: 20px auto;
+  background: #050;
+}
+.cell {
+  float: left;
+  width: 12.5%;
+  height: 12.5%;
+  border: #000 solid;
 }
 
-.container > div {
-  grid-column: 2 / 3;
-  grid-row: 2 / 3;
+.stone {
+  width: 70%;
+  height: 70%;
+  margin: 15%;
+  border-radius: 50%;
 }
 
-.title {
-  font-family: 'Quicksand', 'Source Sans Pro', -apple-system, BlinkMacSystemFont,
-    'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-  display: block;
-  font-weight: 300;
-  font-size: 100px;
-  color: #35495e;
-  letter-spacing: 1px;
+.black {
+  background: #000;
 }
-
-.subtitle {
-  font-weight: 300;
-  font-size: 42px;
-  color: #526488;
-  word-spacing: 5px;
-  padding-bottom: 15px;
-}
-
-.links {
-  padding-top: 15px;
+.white {
+  background: #fff;
 }
 </style>

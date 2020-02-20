@@ -1,6 +1,6 @@
-# nuxt-ts
+# My Nuxt training Project
 
-> My swell Nuxt.js project
+imported from https://github.com/m-mitsuhide/nuxt-ts-starter
 
 ## Build Setup
 
