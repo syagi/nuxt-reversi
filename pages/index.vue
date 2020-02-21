@@ -3,8 +3,11 @@
     <template v-for="x in board.length">
       <div v-for="y in board[x - 1].length" :key="`${y}-${x}`" class="cell">
         <div
-          v-if="isStone(x, y)"
-          :class="['stone', isBlack(x, y) ? 'black' : 'white']"
+          v-if="true /*宿題1:石があるか判断しろ*/"
+          :class="[
+            'stone',
+            true /*宿題2:白か黒か判断しろ*/ ? 'black' : 'white'
+          ]"
         />
       </div>
     </template>
@@ -16,12 +19,9 @@ import { Component, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class extends Vue {
-  get isStone() {
-    return (x: number, y: number) => this.board[x - 1][y - 1] !== 0
-  }
-
+  // 宿題2のヒント
   get isBlack() {
-    return (x: number, y: number) => this.board[x - 1][y - 1] === 1
+    return (x: number, y: number) => x % 2 === y % 2 // 黒の場合の条件は？ this.board[x - 1][y - 1] === ???
   }
 
   board = [
